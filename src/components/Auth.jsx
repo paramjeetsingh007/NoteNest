@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "firebase/auth";
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  signInWithRedirect, 
+  onAuthStateChanged 
+} from "firebase/auth";
 import { auth } from "../firebase";
 import { toast, ToastContainer } from "react-toastify";
 import { motion } from "framer-motion";
@@ -31,7 +38,6 @@ const Auth = () => {
         await signInWithEmailAndPassword(auth, email, password);
         toast.success("Login successful!", { autoClose: 1000 });
       }
-      // Delay navigation to allow toast to be seen
       setTimeout(() => navigate("/"), 2000);
     } catch (error) {
       toast.error(`${isSignup ? "Signup" : "Login"} failed: ${error.message}`, { autoClose: 3000 });
@@ -41,18 +47,26 @@ const Auth = () => {
   const handleGoogleAuth = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: "select_account" }); // Ensures account selection popup
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      
-      toast.success(`Welcome, ${user.displayName}!`, { autoClose: 1000 });
-      setTimeout(() => navigate("/"), 1000);
+      provider.setCustomParameters({ prompt: "select_account" });
+
+      // Attempt Google sign-in with a popup
+      try {
+        const result = await signInWithPopup(auth, provider);
+        toast.success(`Welcome, ${result.user.displayName}!`, { autoClose: 1000 });
+        setTimeout(() => navigate("/"), 1000);
+      } catch (error) {
+        // If popup blocked or cancelled, fallback to redirect
+        if (error.code === "auth/popup-blocked" || error.code === "auth/cancelled-popup-request") {
+          await signInWithRedirect(auth, provider);
+        } else {
+          throw error;
+        }
+      }
     } catch (error) {
       console.error("Google Authentication Error:", error);
       toast.error(`Google login failed: ${error.message}`, { autoClose: 3000 });
     }
   };
-  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900">
