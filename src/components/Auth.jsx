@@ -41,13 +41,18 @@ const Auth = () => {
   const handleGoogleAuth = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      toast.success("Google login successful!", { autoClose: 2000 });
-      setTimeout(() => navigate("/"), 2000);
+      provider.setCustomParameters({ prompt: "select_account" }); // Ensures account selection popup
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      
+      toast.success(`Welcome, ${user.displayName}!`, { autoClose: 1000 });
+      setTimeout(() => navigate("/"), 1000);
     } catch (error) {
+      console.error("Google Authentication Error:", error);
       toast.error(`Google login failed: ${error.message}`, { autoClose: 3000 });
     }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900">
