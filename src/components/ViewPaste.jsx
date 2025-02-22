@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { database } from "../firebase"; // Import Firebase config
-import { ref, get } from "firebase/database";
+import { ref, get, child } from "firebase/database";
 import { FaArrowLeft } from "react-icons/fa";
 
 function ViewPaste() {
@@ -11,15 +11,29 @@ function ViewPaste() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log("Fetching paste for ID:", id); // Debugging log
+
     const fetchPaste = async () => {
       try {
-        const pasteRef = ref(database, `pastes/${id}`);
-        const snapshot = await get(pasteRef);
+        const usersRef = ref(database, "users");
+        const snapshot = await get(usersRef);
+
         if (snapshot.exists()) {
-          setPaste(snapshot.val());
-        } else {
-          setPaste(null);
+          const usersData = snapshot.val();
+          console.log("Users Data:", usersData);
+
+          for (const userId in usersData) {
+            const userPastes = usersData[userId]?.pastes;
+
+            if (userPastes && userPastes[id]) {
+              setPaste(userPastes[id]);
+              console.log("Fetched Paste Data:", userPastes[id]);
+              return;
+            }
+          }
         }
+        console.log("No paste found for this ID.");
+        setPaste(null);
       } catch (error) {
         console.error("Error fetching paste:", error);
       } finally {
@@ -31,7 +45,7 @@ function ViewPaste() {
   }, [id]);
 
   return (
-    <div className="flex   justify-center min-h-screen bg-[#293241]  px-6 py-12">
+    <div className="flex justify-center min-h-screen bg-[#293241] px-6 py-12">
       <div className="bg-white shadow-2xl rounded-2xl p-10 max-w-6xl w-full">
         {/* Back Button */}
         <button
@@ -58,7 +72,6 @@ function ViewPaste() {
         ) : (
           <p className="text-red-500 text-center text-2xl">Paste not found!</p>
         )}
-        
       </div>
     </div>
   );

@@ -46,8 +46,8 @@ function App() {
     <Router>
       {user && <Navbar />} {/* ✅ Navbar appears only after login */}
       <Routes>
-        <Route path="/" element={<Dashboard />} />  {/* ✅ Show Dashboard first */}
-        <Route path="/auth" element={user ? <Navigate to="/home" replace /> : <Auth />} />
+        <Route path="/" element={<Dashboard />} />  
+        <Route path="/auth" element={user ? <Navigate to="/" replace /> : <Auth />} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/pastes" element={<ProtectedRoute><Pastes /></ProtectedRoute>} />
         <Route path="/pastes/:id" element={<ProtectedRoute><ViewPaste /></ProtectedRoute>} />

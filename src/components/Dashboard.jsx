@@ -10,9 +10,9 @@ const Dashboard = () => {
 
   const handleGetStarted = () => {
     if (currentUser) {
-      navigate("/home"); // ✅ Go to Home if logged in
+      navigate("/home"); //  Go to Home if logged in
     } else {
-      navigate("/auth"); // ✅ Go to Signup/Login if not logged in
+      navigate("/auth"); //  Go to Signup/Login if not logged in
     }
   };
 
