@@ -30,16 +30,16 @@ function Pastes() {
   const copyToClipboard = (text, e) => {
     e.stopPropagation();
     navigator.clipboard.writeText(text);
-    toast.success("Copied to clipboard!", { autoClose: 2000 });
+    toast.success("Copied to clipboard!", { autoClose: 1000 });
   };
 
   const deletePaste = (pasteId, e) => {
     e.stopPropagation();
     if (currentUser) {
       dispatch(deletePasteFromFirebase({ userId: currentUser.uid, pasteId }));
-      toast.info("Paste deleted successfully!", { autoClose: 2000 });
+      toast.info("Notes deleted successfully!", { autoClose: 1000 });
     } else {
-      toast.error("You must be logged in to delete a paste!", { autoClose: 2000 });
+      toast.error("You must be logged in to delete a Notes!", { autoClose: 1000 });
     }
   };
 
@@ -50,13 +50,13 @@ function Pastes() {
 
   return (
     <div className="bg-[#293241] p-4 min-h-screen">
-      <h2 className="text-2xl font-semibold text-center mb-4 text-white">Stored Pastes</h2>
+      <h2 className="text-2xl font-semibold text-center mb-4 text-white">Your All Notes</h2>
       {loading && <p className="text-center">Loading...</p>}
       {error && <p className="text-red-600 text-center">{error}</p>}
 
       <div className="max-w-2xl mx-auto">
         {pastes.length === 0 ? (
-          <p className="text-center text-gray-600">No pastes available.</p>
+          <p className="text-center text-gray-600">No Notes available.</p>
         ) : (
           pastes.map((paste) => (
             <div

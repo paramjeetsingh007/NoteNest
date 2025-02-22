@@ -24,9 +24,9 @@ function Navbar() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      toast.success("Logout successful!", { autoClose: 2000 });
+      toast.success("Logout successful!", { autoClose: 1000 });
     } catch (error) {
-      toast.error(`Logout failed: ${error.message}`, { autoClose: 3000 });
+      toast.error(`Logout failed: ${error.message}`, { autoClose: 1000 });
     }
   };
 
@@ -44,7 +44,7 @@ function Navbar() {
             Home
           </NavLink>
           <NavLink to="/pastes" className="hover:text-[#ee6c4d] transition duration-300">
-            Pastes
+           Your Notes
           </NavLink>
         </div>
 
@@ -83,7 +83,7 @@ function Navbar() {
             Home
           </NavLink>
           <NavLink to="/pastes" className="text-lg hover:text-[#ee6c4d] transition duration-300">
-            Pastes
+            Your Notes
           </NavLink>
           {user ? (
             <>
@@ -104,7 +104,7 @@ function Navbar() {
       )}
 
       {/* Toast Container */}
-      <ToastContainer position="top-right" autoClose={2000} />
+      <ToastContainer position="top-right" autoClose={1000} />
     </nav>
   );
 }

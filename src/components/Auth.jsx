@@ -26,10 +26,10 @@ const Auth = () => {
     try {
       if (isSignup) {
         await createUserWithEmailAndPassword(auth, email, password);
-        toast.success("Signup successful!", { autoClose: 2000 });
+        toast.success("Signup successful!", { autoClose: 1000 });
       } else {
         await signInWithEmailAndPassword(auth, email, password);
-        toast.success("Login successful!", { autoClose: 2000 });
+        toast.success("Login successful!", { autoClose: 1000 });
       }
       // Delay navigation to allow toast to be seen
       setTimeout(() => navigate("/"), 2000);
@@ -100,7 +100,7 @@ const Auth = () => {
         </p>
       </motion.div>
       {/* Toast Notifications */}
-      <ToastContainer position="top-right" autoClose={2000} />
+      <ToastContainer position="top-right" autoClose={1000} />
     </div>
   );
 };

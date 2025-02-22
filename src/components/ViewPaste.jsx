@@ -56,7 +56,7 @@ function ViewPaste() {
         </button>
 
         {loading ? (
-          <p className="text-center text-gray-600 text-xl">Loading paste...</p>
+          <p className="text-center text-gray-600 text-xl">Loading Notes...</p>
         ) : paste ? (
           <>
             {/* Paste Title */}
@@ -70,7 +70,7 @@ function ViewPaste() {
             </div>
           </>
         ) : (
-          <p className="text-red-500 text-center text-2xl">Paste not found!</p>
+          <p className="text-red-500 text-center text-2xl">Notes not found!</p>
         )}
       </div>
     </div>

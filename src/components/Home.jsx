@@ -47,10 +47,10 @@ function Home() {
 
       if (editMode && editId) {
         await dispatch(updatePasteInFirebase({ id: editId, ...pasteData })).unwrap();
-        toast.success("Paste updated successfully!");
+        toast.success("Note updated successfully!");
       } else {
         await dispatch(addPasteToFirebase(pasteData)).unwrap();
-        toast.success("Paste added successfully!");
+        toast.success("Note added successfully!");
       }
 
       setTitle("");
@@ -66,7 +66,7 @@ function Home() {
     <div className="flex items-center justify-center min-h-screen bg-[#293241] p-6 sm:p-4">
       <div className="w-full max-w-4xl sm:max-w-lg bg-white p-8 sm:p-6 shadow-xl rounded-lg">
         <h2 className="text-3xl sm:text-2xl font-bold mb-6 text-center text-[#293241]">
-          {editMode ? "Edit Paste" : "Create a New Paste"}
+          {editMode ? "Edit Note" : "Create a New Note"}
         </h2>
         {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
         <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
@@ -89,7 +89,7 @@ function Home() {
             onClick={handleSubmit}
             disabled={loading}
           >
-            {loading ? "Saving..." : editMode ? "Update Paste" : "Create Paste"}
+            {loading ? "Saving..." : editMode ? "Update " : "Create "}
           </button>
         </form>
       </div>
